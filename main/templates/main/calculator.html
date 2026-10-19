@@ -2,103 +2,1312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator - Fuel Refund Institute</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="{% static 'images/FRI Logo - Black.png' %}">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Fuel Tax Refund Calculator - Estimate Your State &amp; Federal Refund | Fuel Refund Institute</title>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2a2a2a;
-        }
+  <!-- DNS Prefetch for external resources -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
+  <!-- Preconnect to critical domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-        .icon-wrapper {
-            margin-bottom: 2rem;
-        }
+  <!-- Preload critical hero image -->
+  <link rel="preload" as="image" href="{% static 'images/2.jpg' %}" fetchpriority="high">
 
-        .icon-wrapper i {
-            font-size: 6rem;
-            color: #37af6b;
-        }
+  <!-- Load fonts asynchronously -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
-        h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #0a0a0a;
-        }
+  <!-- Defer Font Awesome loading -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin="anonymous">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
-        p {
-            font-size: 1.25rem;
-            color: #6b6b6b;
-            margin-bottom: 2rem;
-        }
+  <meta name="description" content="Estimate your fuel tax refund in seconds. Calculate your California state refund and your federal refund separately, then see your combined total refund range.">
+  <meta name="keywords" content="fuel tax refund calculator, California fuel tax refund, federal fuel tax refund, off-road diesel refund estimate, fuel excise tax calculator">
+  <meta name="author" content="Fuel Refund Institute">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Fuel Refund Institute">
+  <meta property="og:title" content="Fuel Tax Refund Calculator | Fuel Refund Institute">
+  <meta property="og:description" content="Estimate your California state and federal fuel tax refunds, and see your combined total refund range.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/FRI Logo - Black.png' %}">
 
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: #37af6b;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
+  <style>
+  :root {
+    --primary: #48A96A;
+    --primary-light: #5BC085;
+    --primary-dark: #3A8A56;
+    --secondary: #1a1a1a;
+    --secondary-light: #2a2a2a;
+    --secondary-dark: #0a0a0a;
+    --accent: #48A96A;
+    --accent-light: #5BC085;
+    --white: #ffffff;
+    --gray-50: #f9f9f9;
+    --gray-100: #e8e8e8;
+    --gray-200: #d1d1d1;
+    --gray-300: #b0b0b0;
+    --gray-500: #6b6b6b;
+    --gray-700: #2a2a2a;
+    --gray-900: #0a0a0a;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.15);
+    --shadow-xl: 0 8px 32px rgba(0,0,0,0.2);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-        .back-btn:hover {
-            background: #4bc57f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(55, 175, 107, 0.3);
-        }
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
 
-            p {
-                font-size: 1rem;
-            }
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
 
-            .icon-wrapper i {
-                font-size: 4rem;
-            }
-        }
-    </style>
+  /* Lock page scroll when mobile menu is open */
+  html.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  img {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .hero-title,
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0px;
+  }
+
+  /* Header */
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    z-index: 10000;
+    padding: 0.75rem 0;
+    transition: var(--transition);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    z-index: 10001;
+  }
+
+  .logo-circle {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .nav-menu a {
+    padding: 0.625rem 1rem;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-size: 0.9rem;
+    position: relative;
+    border-bottom: 2px solid transparent;
+  }
+
+  .nav-menu a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    border-bottom-color: var(--primary);
+  }
+
+  .nav-menu a.active {
+    background: transparent;
+    border-bottom-color: var(--primary);
+  }
+
+  .cta-login,
+  .cta-signup {
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-left: 0.5rem;
+  }
+
+  .cta-login:hover,
+  .cta-signup:hover {
+    background: var(--primary-light);
+  }
+
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 10001;
+  }
+
+  .mobile-toggle span {
+    width: 24px;
+    height: 3px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  .mobile-close {
+    display: none;
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    min-height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary);
+    color: var(--white);
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(72, 169, 106, 0.5) 100%);
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: 9rem 1rem 3rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 500;
+    opacity: 0.9;
+    margin-top: 0.75rem;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Calculator */
+  .calc-section {
+    padding: 3.5rem 1rem 4rem;
+    background: var(--gray-50);
+  }
+
+  .calc-shell {
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+
+  .calc-intro {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .calc-intro h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .calc-intro p {
+    color: var(--gray-500);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .calc-card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .calc-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .calc-step {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .calc-card-head h3 {
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .calc-card-head p {
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    margin: 0;
+  }
+
+  .field {
+    margin-bottom: 1.25rem;
+  }
+
+  .field:last-of-type {
+    margin-bottom: 1.5rem;
+  }
+
+  .field label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+  }
+
+  .field .hint {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--gray-500);
+    margin-top: 0.35rem;
+  }
+
+  .field select,
+  .field input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    color: var(--gray-900);
+    background: var(--white);
+    border: 2px solid var(--gray-100);
+    border-radius: 10px;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 18px;
+    padding-right: 2.75rem;
+    cursor: pointer;
+  }
+
+  .field select:focus,
+  .field input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(72, 169, 106, 0.15);
+  }
+
+  .field input.error,
+  .field select.error {
+    border-color: #d64545;
+  }
+
+  .field-error {
+    display: none;
+    font-size: 0.8rem;
+    color: #d64545;
+    margin-top: 0.4rem;
+  }
+
+  .field-error.show {
+    display: block;
+  }
+
+  .input-affix {
+    position: relative;
+  }
+
+  .input-affix input {
+    padding-right: 4.5rem;
+  }
+
+  .input-affix .affix {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--gray-500);
+    pointer-events: none;
+  }
+
+  .result {
+    margin-top: auto;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .result-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 0.5rem;
+  }
+
+  .result-range {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .result-range .dash {
+    color: var(--gray-300);
+    font-weight: 500;
+    margin: 0 0.35rem;
+  }
+
+  .result-note {
+    font-size: 0.78rem;
+    color: var(--gray-500);
+    margin-top: 0.5rem;
+  }
+
+  /* Total */
+  .calc-total {
+    margin-top: 1.5rem;
+    background: var(--secondary);
+    color: var(--white);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .calc-total-breakdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .breakdown-item {
+    min-width: 160px;
+  }
+
+  .breakdown-item .breakdown-label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 0.2rem;
+  }
+
+  .breakdown-item .breakdown-value {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .breakdown-plus {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-light);
+  }
+
+  .calc-total-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+  }
+
+  .calc-total-value {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--primary-light);
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  .calc-total-value .dash {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 500;
+    margin: 0 0.5rem;
+  }
+
+  .calc-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: var(--white);
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(72, 169, 106, 0.35);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Why a range / disclaimer */
+  .calc-notes {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .note-card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .note-card h4 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .note-card h4 i {
+    color: var(--primary);
+  }
+
+  .note-card p {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    margin: 0;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--gray-50);
+    padding: 2rem 0 1rem;
+    border-top: 1px solid var(--gray-200);
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .footer-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .footer-brand-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--secondary);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .social-link {
+    width: 32px;
+    height: 32px;
+    background: var(--gray-100);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-500);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+  }
+
+  .social-link:hover {
+    background: var(--primary);
+    color: var(--white);
+  }
+
+  .footer-bottom {
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.875rem;
+  }
+
+  .footer-bottom a {
+    color: var(--gray-500);
+    text-decoration: none;
+  }
+
+  .footer-bottom a:hover {
+    color: var(--secondary);
+  }
+
+  .footer-bottom span {
+    margin: 0 2px;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Desktop - Hide mobile elements */
+  @media (min-width: 769px) {
+    .mobile-toggle {
+      display: none !important;
+    }
+
+    .mobile-close {
+      display: none !important;
+    }
+
+    .nav-menu {
+      position: static !important;
+      width: auto !important;
+      height: auto !important;
+      background: transparent !important;
+      flex-direction: row !important;
+      justify-content: flex-end !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+    }
+  }
+
+  @media (max-width: 1240px) {
+    .container {
+      padding: 0 1.25rem;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    header {
+      position: fixed !important;
+      background: rgba(0, 0, 0, 0.15) !important;
+      backdrop-filter: blur(5px) !important;
+      -webkit-backdrop-filter: blur(5px) !important;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    header.menu-open {
+      background: rgba(26, 26, 26, 0.95) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .mobile-toggle {
+      display: flex;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-toggle.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: 0 !important;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #1a1a1a;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem;
+      margin: 0;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 9999;
+    }
+
+    .nav-menu.active {
+      transform: translateX(0);
+    }
+
+    .nav-menu a {
+      width: 90%;
+      max-width: 300px;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      background: var(--white);
+      color: var(--secondary);
+      border-radius: 10px;
+    }
+
+    .nav-menu a:hover {
+      background: var(--gray-100);
+    }
+
+    .nav-menu a.active {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .cta-login,
+    .cta-signup {
+      background: var(--primary);
+      color: var(--white);
+      margin-left: 0;
+      width: 90%;
+      max-width: 300px;
+    }
+
+    .mobile-close {
+      display: flex;
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .mobile-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+    }
+
+    .hero {
+      min-height: 40vh;
+    }
+
+    .hero-content {
+      padding: 7.5rem 1rem 2.5rem;
+    }
+
+    .calc-section {
+      padding: 2.5rem 0 3rem;
+    }
+
+    .calc-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .calc-notes {
+      grid-template-columns: 1fr;
+    }
+
+    .calc-card {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .calc-total {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .calc-total-breakdown {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .breakdown-plus {
+      display: none;
+    }
+
+    .calc-actions .btn {
+      width: 100%;
+    }
+
+    /* Keep iOS from zooming on focus */
+    .field select,
+    .field input {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+  </style>
 </head>
 <body>
+
+  <!-- Header -->
+  <header role="banner">
     <div class="container">
-        <div class="icon-wrapper">
-            <i class="fas fa-calculator"></i>
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-circle">
+            <img src="{% static 'images/FRI Logo - White.png' %}" alt="Fuel Refund Institute Logo" width="120" height="120">
+          </div>
         </div>
-        <h1>Calculator</h1>
-        <p>Still Under Development</p>
-        <a href="{% url 'home' %}" class="back-btn">
-            <i class="fas fa-arrow-left"></i>
-            Back to Home
-        </a>
+
+        <button class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+          <button class="mobile-close" aria-label="Close navigation menu">
+            <i class="fas fa-times" aria-hidden="true"></i>
+          </button>
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'calculator' %}" class="active" aria-current="page">Calculator</a>
+          <a href="{% url 'faq' %}">FAQ</a>
+          <a href="{% url 'home' %}#services">Services</a>
+          <a href="{% url 'contact' %}">Contact Us</a>
+          <a href="{% url 'login' %}" class="cta-login">Log In</a>
+          <a href="{% url 'signup' %}" class="cta-signup">Sign Up</a>
+        </nav>
+      </div>
     </div>
+  </header>
+
+  <main role="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-label="Refund calculator hero section">
+      <img src="{% static 'images/2.jpg' %}" alt="" class="hero-bg" loading="eager" width="1920" height="600" aria-hidden="true">
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Refund Calculator</h1>
+        <p class="hero-subtitle">Enter your fuel purchases and see your estimated state and federal refunds, plus your combined total.</p>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calc-section" aria-label="Fuel tax refund calculator">
+      <div class="container">
+        <div class="calc-shell">
+
+          <div class="calc-intro">
+            <h2>Estimate Your Fuel Tax Refund</h2>
+            <p>Your refund is made up of two separate claims. Fill in each section below &mdash; the totals are worked out as you type.</p>
+          </div>
+
+          <form id="refund-calculator" novalidate>
+            <div class="calc-grid">
+
+              <!-- Section 1: State Refund -->
+              <div class="calc-card">
+                <div class="calc-card-head">
+                  <div class="calc-step" aria-hidden="true"><i class="fas fa-map-marker-alt"></i></div>
+                  <div>
+                    <h3>1. State Refund</h3>
+                    <p>Based on the past 3 years of fuel purchases</p>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="state-select">Select your state</label>
+                  <select id="state-select" name="state">
+                    <option value="">Choose a state&hellip;</option>
+                    <option value="CA">California (CA)</option>
+                  </select>
+                  <span class="hint">More states are being added &mdash; California is available now.</span>
+                  <span class="field-error" id="state-error">Please select a state to calculate your state refund.</span>
+                </div>
+
+                <div class="field">
+                  <label for="state-gallons">Fuel purchased &mdash; past 3 years</label>
+                  <div class="input-affix">
+                    <input type="text" id="state-gallons" name="state_gallons" inputmode="decimal"
+                           autocomplete="off" placeholder="e.g. 150,000"
+                           aria-describedby="state-gallons-hint">
+                    <span class="affix">gallons</span>
+                  </div>
+                  <span class="hint" id="state-gallons-hint">Estimated or actual gallons purchased by your business over the last 3 years.</span>
+                  <span class="field-error" id="state-gallons-error">Please enter a valid number of gallons.</span>
+                </div>
+
+                <div class="result">
+                  <div class="result-label">Estimated State Refund</div>
+                  <div class="result-range" id="state-result" aria-live="polite">
+                    <span>$0</span><span class="dash">&ndash;</span><span>$0</span>
+                  </div>
+                  <div class="result-note" id="state-note">Select California and enter your gallons.</div>
+                </div>
+              </div>
+
+              <!-- Section 2: Federal Refund -->
+              <div class="calc-card">
+                <div class="calc-card-head">
+                  <div class="calc-step" aria-hidden="true"><i class="fas fa-flag-usa"></i></div>
+                  <div>
+                    <h3>2. Federal Refund</h3>
+                    <p>Based on the past calendar year only</p>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="federal-gallons">Fuel purchased &mdash; past year</label>
+                  <div class="input-affix">
+                    <input type="text" id="federal-gallons" name="federal_gallons" inputmode="decimal"
+                           autocomplete="off" placeholder="e.g. 50,000"
+                           aria-describedby="federal-gallons-hint">
+                    <span class="affix">gallons</span>
+                  </div>
+                  <span class="hint" id="federal-gallons-hint">Federal claims can only go back one year, so enter the last calendar year only.</span>
+                  <span class="field-error" id="federal-gallons-error">Please enter a valid number of gallons.</span>
+                </div>
+
+                <div class="result">
+                  <div class="result-label">Estimated Federal Refund</div>
+                  <div class="result-range" id="federal-result" aria-live="polite">
+                    <span>$0</span><span class="dash">&ndash;</span><span>$0</span>
+                  </div>
+                  <div class="result-note" id="federal-note">Enter your gallons for the past year.</div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Total -->
+            <div class="calc-total">
+              <div class="calc-total-breakdown">
+                <div class="breakdown-item">
+                  <span class="breakdown-label">State Refund</span>
+                  <span class="breakdown-value" id="breakdown-state">$0 &ndash; $0</span>
+                </div>
+                <div class="breakdown-plus" aria-hidden="true">+</div>
+                <div class="breakdown-item">
+                  <span class="breakdown-label">Federal Refund</span>
+                  <span class="breakdown-value" id="breakdown-federal">$0 &ndash; $0</span>
+                </div>
+              </div>
+
+              <div class="calc-total-label">Total Estimated Refund</div>
+              <div class="calc-total-value" id="total-result" aria-live="polite">
+                <span>$0</span><span class="dash">&ndash;</span><span>$0</span>
+              </div>
+
+              <div class="calc-actions">
+                <a href="{% url 'contact' %}" class="btn btn-primary">
+                  <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                  Get My Exact Refund
+                </a>
+                <button type="button" class="btn btn-ghost" id="calc-reset">
+                  <i class="fas fa-rotate-left" aria-hidden="true"></i>
+                  Start Over
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="calc-notes">
+            <div class="note-card">
+              <h4><i class="fas fa-circle-question" aria-hidden="true"></i> Why a range?</h4>
+              <p>How much of your fuel qualifies depends on how you use it and what equipment it runs. We show the low end (10%) and the high end (45%) so you can see both ends of what your claim could be worth.</p>
+            </div>
+            <div class="note-card">
+              <h4><i class="fas fa-circle-info" aria-hidden="true"></i> This is an estimate</h4>
+              <p>These figures are a guide only and are not a guarantee of refund. Send us your details and we will confirm exactly what you are owed.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="{% static 'images/FRI Logo - Black - Without Name.png' %}" alt="Fuel Refund Institute Logo" width="50" height="50" loading="lazy">
+          </div>
+          <div class="footer-brand-text">Fuel Refund Institute</div>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/fuel-refund-institute/posts/?feedView=all" class="social-link" aria-label="Visit our LinkedIn page" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p><span>&copy; 2025 Fuel Refund Institute. All rights reserved.</span></p>
+        <p><a href="{% url 'privacy_policy' %}" rel="noopener">Privacy Policy</a><span>&nbsp;|&nbsp;</span><a href="{% url 'terms_of_service' %}" rel="noopener">Terms of Service</a><span>&nbsp;|&nbsp;</span><a href="tel:+13238927914" rel="nofollow">+1 323-892-7914</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      initializeMobileNavigation();
+      initializeCalculator();
+    });
+
+    function initializeMobileNavigation() {
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const mobileClose = document.querySelector('.mobile-close');
+      const navMenu = document.querySelector('.nav-menu');
+      const header = document.querySelector('header');
+      const html = document.documentElement;
+
+      function toggleMenu() {
+        const isOpen = navMenu.classList.toggle('active');
+        html.classList.toggle('menu-open');
+        header.classList.toggle('menu-open');
+        mobileToggle.classList.toggle('hidden');
+        mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', toggleMenu);
+      }
+
+      if (mobileClose) {
+        mobileClose.addEventListener('click', toggleMenu);
+      }
+
+      document.querySelectorAll('.nav-menu a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (navMenu.classList.contains('active')) {
+            toggleMenu();
+          }
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+          toggleMenu();
+        }
+      });
+    }
+
+    function initializeCalculator() {
+      /* ---------------------------------------------------------------
+         Refund rates. Update these in one place if the rates change.
+
+         State refund  = gallons (past 3 years) x state rate x percentage
+         Federal refund = gallons (past year)   x 0.244      x percentage
+
+         The low/high percentages produce the range we quote, because how
+         much fuel qualifies depends on usage and equipment.
+      --------------------------------------------------------------- */
+      const STATE_RATES = {
+        CA: 0.467
+      };
+      const FEDERAL_RATE = 0.244;
+      const LOW_PERCENT = 0.10;
+      const HIGH_PERCENT = 0.45;
+
+      const form = document.getElementById('refund-calculator');
+      if (!form) return;
+
+      const stateSelect = document.getElementById('state-select');
+      const stateGallons = document.getElementById('state-gallons');
+      const federalGallons = document.getElementById('federal-gallons');
+      const resetButton = document.getElementById('calc-reset');
+
+      const stateResult = document.getElementById('state-result');
+      const federalResult = document.getElementById('federal-result');
+      const totalResult = document.getElementById('total-result');
+      const breakdownState = document.getElementById('breakdown-state');
+      const breakdownFederal = document.getElementById('breakdown-federal');
+      const stateNote = document.getElementById('state-note');
+      const federalNote = document.getElementById('federal-note');
+
+      const stateError = document.getElementById('state-error');
+      const stateGallonsError = document.getElementById('state-gallons-error');
+      const federalGallonsError = document.getElementById('federal-gallons-error');
+
+      // Parse a typed value like "150,000" or "12 500.5" into a number.
+      // Returns null for blank input and NaN for anything unusable.
+      function parseGallons(value) {
+        const cleaned = String(value).replace(/[,\s]/g, '').trim();
+        if (cleaned === '') return null;
+        if (!/^\d*\.?\d*$/.test(cleaned)) return NaN;
+        const parsed = parseFloat(cleaned);
+        if (isNaN(parsed) || parsed < 0) return NaN;
+        return parsed;
+      }
+
+      function formatCurrency(amount) {
+        // Small amounts keep the cents; larger ones read better rounded.
+        const decimals = amount > 0 && amount < 1000 ? 2 : 0;
+        return amount.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function renderRange(element, low, high) {
+        element.innerHTML = '';
+        const lowSpan = document.createElement('span');
+        lowSpan.textContent = formatCurrency(low);
+        const dash = document.createElement('span');
+        dash.className = 'dash';
+        dash.textContent = '–';
+        const highSpan = document.createElement('span');
+        highSpan.textContent = formatCurrency(high);
+        element.appendChild(lowSpan);
+        element.appendChild(dash);
+        element.appendChild(highSpan);
+      }
+
+      function setFieldError(field, errorEl, show) {
+        if (field) field.classList.toggle('error', show);
+        if (errorEl) errorEl.classList.toggle('show', show);
+      }
+
+      function calculate() {
+        const stateCode = stateSelect.value;
+        const stateRate = STATE_RATES[stateCode];
+        const stateValue = parseGallons(stateGallons.value);
+        const federalValue = parseGallons(federalGallons.value);
+
+        const stateInvalid = isNaN(stateValue);
+        const federalInvalid = isNaN(federalValue);
+
+        setFieldError(stateGallons, stateGallonsError, stateInvalid);
+        setFieldError(federalGallons, federalGallonsError, federalInvalid);
+        // Only nag about the state once they have typed gallons for it.
+        setFieldError(stateSelect, stateError, !stateCode && stateValue > 0);
+
+        // --- State refund ---
+        let stateLow = 0;
+        let stateHigh = 0;
+        if (stateRate && stateValue && !stateInvalid) {
+          stateLow = stateValue * stateRate * LOW_PERCENT;
+          stateHigh = stateValue * stateRate * HIGH_PERCENT;
+          stateNote.textContent = stateCode + ' rate: $' + stateRate.toFixed(3) + ' per gallon';
+        } else if (!stateCode) {
+          stateNote.textContent = 'Select California and enter your gallons.';
+        } else {
+          stateNote.textContent = 'Enter your gallons for the past 3 years.';
+        }
+        renderRange(stateResult, stateLow, stateHigh);
+
+        // --- Federal refund ---
+        let federalLow = 0;
+        let federalHigh = 0;
+        if (federalValue && !federalInvalid) {
+          federalLow = federalValue * FEDERAL_RATE * LOW_PERCENT;
+          federalHigh = federalValue * FEDERAL_RATE * HIGH_PERCENT;
+          federalNote.textContent = 'Federal rate: $' + FEDERAL_RATE.toFixed(3) + ' per gallon';
+        } else {
+          federalNote.textContent = 'Enter your gallons for the past year.';
+        }
+        renderRange(federalResult, federalLow, federalHigh);
+
+        // --- Totals ---
+        breakdownState.textContent = formatCurrency(stateLow) + ' – ' + formatCurrency(stateHigh);
+        breakdownFederal.textContent = formatCurrency(federalLow) + ' – ' + formatCurrency(federalHigh);
+        renderRange(totalResult, stateLow + federalLow, stateHigh + federalHigh);
+      }
+
+      stateSelect.addEventListener('change', calculate);
+      stateGallons.addEventListener('input', calculate);
+      federalGallons.addEventListener('input', calculate);
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        calculate();
+      });
+
+      resetButton.addEventListener('click', function () {
+        form.reset();
+        setFieldError(stateSelect, stateError, false);
+        setFieldError(stateGallons, stateGallonsError, false);
+        setFieldError(federalGallons, federalGallonsError, false);
+        calculate();
+        stateSelect.focus();
+      });
+
+      calculate();
+    }
+  </script>
 </body>
 </html>
